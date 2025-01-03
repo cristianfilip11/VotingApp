@@ -1,0 +1,16 @@
+@Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeRequests(authorize ->{
+                    authorize.requestMatchers(HttpMethod.POST,"/createnewuser").permitAll();
+                    //must be at the bottom
+                    authorize.anyRequest().authenticated();
+                })
+                .addFilterBefore(
+                        new BasicAuthenticationFilter(authenticationManager(httpSecurity)),
+                        UsernamePasswordAuthenticationFilter.class
+                )
+                .httpBasic(Customizer.withDefaults())
+                .build();
+    }
