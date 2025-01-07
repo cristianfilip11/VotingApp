@@ -1,18 +1,18 @@
 package com.example.demo.Votant;
 
 import com.example.demo.Exceptions.VotantNotFoundException;
-import com.example.demo.Votant.Model.ErrorResponse;
-import com.example.demo.Votant.Model.UpdateVotantCommand;
-import com.example.demo.Votant.Model.Votant;
-import com.example.demo.Votant.Model.VotantDTO;
+import com.example.demo.Sectie.Model.Sectie;
+import com.example.demo.Votant.Model.*;
 import com.example.demo.Votant.Services.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class VotantController {
 
 
@@ -44,8 +44,17 @@ public class VotantController {
     }
 
     @PostMapping("/votant")
-    public ResponseEntity<VotantDTO> createVotant(@RequestBody Votant votant){
-        return createVotantService.execute(votant);
+    //public String createVotant(@ModelAttribute Votant votant, RedirectAttributes redirectAttributes){
+    public String createVotant(@ModelAttribute VotantRequestDTO votantRequestDTO, RedirectAttributes redirectAttributes) {
+        try {
+            createVotantService.execute(votantRequestDTO);
+            redirectAttributes.addFlashAttribute("successMessage", "Votant adaugat cu succes!");
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("errorMessage", "Eroare: " + e.getMessage());
+        }
+        return "redirect:/adminpanel";
+
+
     }
 
     @GetMapping("/votanti")

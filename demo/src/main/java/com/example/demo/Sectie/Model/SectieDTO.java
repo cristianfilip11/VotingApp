@@ -2,6 +2,7 @@ package com.example.demo.Sectie.Model;
 
 public class SectieDTO {
 
+    private Integer id;
     private String nume;
     private String adresa;
     private Integer numar;
@@ -10,6 +11,15 @@ public class SectieDTO {
         this.nume = sectie.getNume();
         this.adresa = sectie.getAdresa();
         this.numar = sectie.getNumar();
+        this.id = sectie.getId();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNume() {

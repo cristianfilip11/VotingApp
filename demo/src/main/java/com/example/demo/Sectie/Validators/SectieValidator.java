@@ -11,6 +11,7 @@ public class SectieValidator {
     }
 
     public static void execute(Sectie sectie){
+
         if(StringUtils.isEmpty(sectie.getNume())){
             throw new SectieNotValidException(ErrorMessages.NUME_SECTIE_REQUIRED.getMessage());
         }

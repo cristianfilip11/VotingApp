@@ -60,6 +60,9 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(authorize ->{
                     authorize.requestMatchers(HttpMethod.POST,"/createnewuser").permitAll();
+                    authorize.requestMatchers("/login").permitAll();
+                    authorize.requestMatchers("/static").permitAll();
+                    authorize.requestMatchers("/register").permitAll();
 
 
                     //must be at the bottom
@@ -71,7 +74,20 @@ public class SecurityConfiguration {
 //                    authorize.requestMatchers(HttpMethod.GET, "/special").hasAuthority("SPECIAL");
 //                    authorize.requestMatchers(HttpMethod.GET, "/basic").hasAnyAuthority("SPECIAL", "BASIC");
                 })
+
+
                 //.httpBasic(Customizer.withDefaults()) //for basic authentication
+                .formLogin(form -> form
+                        .loginPage("/login") // Custom login page
+                        .defaultSuccessUrl("/homepage", true)
+                        .failureUrl("/login?error=true") // Redirect to login with error paramete
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
+                )
                 .addFilterBefore(
                         new BasicAuthenticationFilter(authenticationManager(httpSecurity)),
                         UsernamePasswordAuthenticationFilter.class
@@ -80,3 +96,6 @@ public class SecurityConfiguration {
                 .build();
     }
 }
+
+
+

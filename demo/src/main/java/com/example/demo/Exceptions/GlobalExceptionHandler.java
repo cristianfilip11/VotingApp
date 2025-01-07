@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -33,4 +34,14 @@ public class GlobalExceptionHandler {
     }
 
     //Can add more exceptions to be handled here
+
+    @ExceptionHandler(org.springframework.validation.BindException.class)
+    public String handleBindException(org.springframework.validation.BindException ex,
+                                      RedirectAttributes redirectAttributes)
+    {
+        redirectAttributes.addFlashAttribute("errorMessage",
+                "Eroare la conversie date (numarul sectiei trebuie sa fie un intreg)");
+        return "redirect:/adminpanel";
+    }
+
 }

@@ -19,6 +19,7 @@ public class SearchSectieByNumeService implements Query<String, List<SectieDTO>>
 
     @Override
     public ResponseEntity<List<SectieDTO>> execute(String nume) {
+
         return ResponseEntity.ok(sectieRepository.findByNumeContaining(nume)
                 .stream()
                 .map(SectieDTO::new)
