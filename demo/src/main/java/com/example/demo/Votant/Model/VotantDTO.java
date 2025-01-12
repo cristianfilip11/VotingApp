@@ -9,12 +9,23 @@ public class VotantDTO {
     private String nume;
     private Integer varsta;
     private SectieDTO sectieDTO;
+    private String cnp;
+
 
     public VotantDTO(Votant votant){
+        this.cnp = votant.getCnp();
         this.id = votant.getId();
         this.nume = votant.getNume();
         this.varsta = votant.getVarsta();
         this.sectieDTO = new SectieDTO(votant.getSectie());
+    }
+
+    public String getCnp() {
+        return cnp;
+    }
+
+    public void setCnp(String cnp) {
+        this.cnp = cnp;
     }
 
     public SectieDTO getSectieDTO() {

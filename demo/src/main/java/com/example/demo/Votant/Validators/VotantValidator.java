@@ -20,5 +20,8 @@ public class VotantValidator {
         if(votant.getVarsta() < 18){
             throw new VotantNotValidException(ErrorMessages.VARSTA_LESS_18.getMessage());
         }
+        if (StringUtils.isBlank(votant.getCnp()) || votant.getCnp().length() != 13) {
+            throw new VotantNotValidException("CNP-ul nu este corect!");
+        }
     }
 }

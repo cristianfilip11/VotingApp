@@ -63,6 +63,7 @@ public class SecurityConfiguration {
                     authorize.requestMatchers("/login").permitAll();
                     authorize.requestMatchers("/static").permitAll();
                     authorize.requestMatchers("/register").permitAll();
+                    authorize.requestMatchers("/homepage").permitAll();
 
 
                     //must be at the bottom

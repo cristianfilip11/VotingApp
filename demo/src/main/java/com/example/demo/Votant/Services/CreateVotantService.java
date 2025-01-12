@@ -1,8 +1,6 @@
     package com.example.demo.Votant.Services;
 
     import com.example.demo.Command;
-    import com.example.demo.Exceptions.ErrorMessages;
-    import com.example.demo.Exceptions.VotantNotValidException;
     import com.example.demo.Sectie.Model.Sectie;
     import com.example.demo.Sectie.SectieRepository;
     import com.example.demo.Votant.Model.Votant;
@@ -10,7 +8,6 @@
     import com.example.demo.Votant.Model.VotantRequestDTO;
     import com.example.demo.Votant.Validators.VotantValidator;
     import com.example.demo.Votant.VotantRepository;
-    import io.micrometer.common.util.StringUtils;
     import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
     import org.springframework.stereotype.Service;
@@ -37,6 +34,7 @@
             votant.setNume(votantRequestDTO.getNume());
             votant.setAdresa(votantRequestDTO.getAdresa());
             votant.setVarsta(votantRequestDTO.getVarsta());
+            votant.setCnp(votantRequestDTO.getCnp());
 
             VotantValidator.execute(votant);
             Optional<Sectie> sectie = sectieRepository.findById(votantRequestDTO.getSectieId());

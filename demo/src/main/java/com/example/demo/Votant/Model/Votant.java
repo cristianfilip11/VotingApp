@@ -1,7 +1,6 @@
 package com.example.demo.Votant.Model;
 
 import com.example.demo.Sectie.Model.Sectie;
-import com.example.demo.Sectie.Model.SectieDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -21,6 +20,22 @@ public class Votant {
 
     @Column(name = "varsta")
     private Integer varsta;
+
+    public Votant(Votant votant) {
+    }
+
+    public Votant(){}
+
+    public String getCnp() {
+        return cnp;
+    }
+
+    public void setCnp(String cnp) {
+        this.cnp = cnp;
+    }
+
+    @Column(name = "cnp")
+    private String cnp;
 
 
     @ManyToOne

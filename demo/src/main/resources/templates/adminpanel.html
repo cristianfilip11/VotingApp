@@ -6,7 +6,26 @@
   <title>Admin Panel - Sectie & Votant Management</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body th:class="${sectieToEdit != null or sectieToDelete != null} ? 'modal-open'">
+<body th:class="${sectieToEdit != null or sectieToDelete != null or votantToEdit != null or votantToDelete != null} ? 'modal-open'">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">My Website</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/adminpanel">Admin</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
 <div class="container mt-5">
   <h1 class="mb-4">Admin Panel</h1>
 
@@ -17,30 +36,23 @@
       <h3>Adaugare sectii</h3>
 
       <!-- Display Success Message -->
-      <div th:if="${successMessage}" class="alert alert-success" role="alert">
-        <span th:text="${successMessage}"></span>
+      <div th:if="${successMessage1}" class="alert alert-success" role="alert">
+        <span th:text="${successMessage1}"></span>
       </div>
 
       <!-- Display Error Message -->
-      <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
-        <span th:text="${errorMessage}"></span>
+      <div th:if="${errorMessage1}" class="alert alert-danger" role="alert">
+        <span th:text="${errorMessage1}"></span>
       </div>
 
       <form th:action="@{/sectie}" th:object="${sectie}" method="post">
         <div class="mb-3">
           <label for="sectieName" class="form-label">Nume sectie</label>
-          <input type="text" class="form-control" id="sectieName" name="nume" required>
+          <input type="text" class="form-control" id="sectieName" name="nume" >
           <label for="sectieAddress" class="form-label">Adresa sectie</label>
-          <input type="text" class="form-control" id="sectieAddress" name="adresa" required>
+          <input type="text" class="form-control" id="sectieAddress" name="adresa">
           <label for="sectieNr" class="form-label">Numar sectie</label>
-          <input type="text" class="form-control" id="sectieNr" name="numar" required>
-
-         <!-- <label for="sectieName" class="form-label">Nume sectie</label>
-          <input id="sectieName" type="text" th:field="*{nume}">
-          <label for="sectieAdress" class="form-label">Adresa sectie</label>
-          <input id="sectieAdress" type="text" th:field="*{adresa}">
-          <label for="sectieNumber" class="form-label">Numar sectie</label>
-          <input id="sectieNumber" type="text" th:field="*{numar}">-->
+          <input type="text" class="form-control" id="sectieNr" name="numar">
 
 
         </div>
@@ -52,7 +64,7 @@
       <form th:action="@{/sectii/search/by-name}" method="get">
         <div class="mb-3">
           <label for="searchSectieName" class="form-label">Sectie Name</label>
-          <input type="text" class="form-control" id="searchSectieName" name="nume" required>
+          <input type="text" class="form-control" id="searchSectieName" name="nume">
         </div>
         <button type="submit" class="btn btn-primary">Search</button>
         <!-- Search Results Table -->
@@ -128,15 +140,20 @@
       <form th:action="@{/votant}" method="post">
         <div class="mb-3">
           <label for="votantName" class="form-label">Votant Name</label>
-          <input type="text" class="form-control" id="votantName" name="nume" required>
+          <input type="text" class="form-control" id="votantName" name="nume" >
         </div>
         <div class="mb-3">
           <label for="votantAdress" class="form-label">Adresa</label>
-          <input type="text" class="form-control" id="votantAdress" name="adresa" required>
+          <input type="text" class="form-control" id="votantAdress" name="adresa" >
         </div>
         <div class="mb-3">
           <label for="votantAge" class="form-label">Varsta</label>
-          <input type="text" class="form-control" id="votantAge" name="varsta" required>
+          <input type="text" class="form-control" id="votantAge" name="varsta">
+        </div>
+        <div class="mb-3">
+          <label for="votantCNP" class="form-label">CNP</label>
+          <input type="text" class="form-control" id="votantCNP" name="cnp"
+                 pattern="\d{13}" title="CNP must be exactly 13 digits" required>
         </div>
         <div class="mb-3">
           <label for="votantSectie" class="form-label">Sectie</label>
@@ -155,24 +172,117 @@
     <thead>
     <tr>
       <th>ID</th>
-      <th>Name</th>
+      <th>Nume</th>
+      <!--<th>Adresa</th>-->
+      <th>Varsta</th>
+      <th>CNP</th>
       <th>Sectie</th>
+
       <th>Actions</th>
+
     </tr>
     </thead>
     <tbody>
     <tr th:each="votant : ${votanti}">
       <td th:text="${votant.id}">1</td>
       <td th:text="${votant.nume}">John Doe</td>
+      <!--<td th:text="${votant.adresa}">Strada Example 123</td>-->
+      <td th:text="${votant.varsta}">30</td>
+      <td th:text="${votant.cnp}">3</td>
       <td th:text="${votant.sectieDTO.nume}">Sectie A</td>
       <td>
-        <form th:action="@{/votant/delete/{id}(id=${votant.id})}" method="post">
-          <button type="submit" class="btn btn-sm btn-danger">Remove</button>
-        </form>
+        <a th:href="@{/votant/{id}/edit(id=${votant.id})}" class="btn btn-sm btn-warning me-2">Edit</a>
+        <a th:href="@{/votant/{id}/confirm-delete(id=${votant.id})}" class="btn btn-sm btn-danger">Delete</a>
       </td>
     </tr>
     </tbody>
   </table>
+</div>
+
+
+<!-- Edit Votant Modal -->
+<div th:fragment="editVotantModal" class="modal fade show"
+     th:if="${votantToEdit != null}"
+     style="display: block;"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="editVotantModalLabel"
+     aria-modal="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form th:action="@{/votant/{id}/update(id=${votantToEdit.id})}" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editVotantModalLabel">Edit Votant</h5>
+          <a href="/adminpanel" class="btn-close" aria-label="Close"></a>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="editVotantNume" class="form-label">Nume votant</label>
+            <input type="text" class="form-control" id="editVotantNume" name="nume"
+                   th:value="${votantToEdit.nume}" required>
+          </div>
+         <!-- <div class="mb-3">
+            <label for="editVotantAdresa" class="form-label">Adresa votant</label>
+            <input type="text" class="form-control" id="editVotantAdresa" name="adresa"
+                   th:value="${votantToEdit.adresa != null ? votantToEdit.adresa : ''}">
+          </div>-->
+          <div class="mb-3">
+            <label for="editVotantVarsta" class="form-label">Varsta votant</label>
+            <input type="number" class="form-control" id="editVotantVarsta" name="varsta"
+                   th:value="${votantToEdit.varsta != null ? votantToEdit.varsta : ''}" required>
+          </div>
+          <div class="mb-3">
+            <label for="editVotantCNP" class="form-label">CNP</label>
+            <input type="text" class="form-control" id="editVotantCNP" name="cnp"
+                   th:value="${votantToEdit.cnp}"
+                   pattern="\d{13}" title="CNP must be exactly 13 digits" required>
+          </div>
+          <div class="mb-3">
+            <label for="editVotantSectie" class="form-label">Sectie</label>
+            <select class="form-select" id="editVotantSectie" name="sectieId" required>
+              <option th:each="sectie : ${sectii}"
+                      th:value="${sectie.id}"
+                      th:text="${sectie.nume}"
+                      th:selected="${votantToEdit.sectieDTO != null and sectie.id == votantToEdit.sectieDTO.id}">
+                Sectie A
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="/adminpanel" class="btn btn-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Votant Confirmation Modal -->
+<div th:fragment="deleteVotantModal" class="modal fade show"
+     th:if="${votantToDelete != null}"
+     style="display: block;"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="deleteVotantModalLabel"
+     aria-modal="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteVotantModalLabel">Confirm Delete</h5>
+        <a href="/adminpanel" class="btn-close" aria-label="Close"></a>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete votant "<span th:text="${votantToDelete.nume}"></span>"?
+      </div>
+      <div class="modal-footer">
+        <a href="/adminpanel" class="btn btn-secondary">Cancel</a>
+        <form th:action="@{/votant/{id}/delete(id=${votantToDelete.id})}" method="post">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -244,7 +354,7 @@
 </div>
 
 <!-- Add this div for the modal backdrop -->
-<div class="modal-backdrop fade show" th:if="${sectieToEdit != null or sectieToDelete != null}"></div>
+<div class="modal-backdrop fade show" th:if="${sectieToEdit != null or sectieToDelete != null or votantToEdit != null or votantToDelete != null}"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

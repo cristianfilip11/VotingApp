@@ -3,9 +3,9 @@ package com.example.demo.Votant.Model;
 
 public class UpdateVotantCommand {
     private Integer id;
-    private Votant votant;
+    private VotantRequestDTO votant;
 
-    public UpdateVotantCommand(Integer id, Votant votant) {
+    public UpdateVotantCommand(Integer id, VotantRequestDTO votant) {
         this.id = id;
         this.votant = votant;
     }
@@ -14,7 +14,7 @@ public class UpdateVotantCommand {
         return id;
     }
 
-    public Votant getVotant() {
+    public VotantRequestDTO getVotant() {
         return votant;
     }
 }

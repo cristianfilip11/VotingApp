@@ -5,6 +5,15 @@ public class VotantRequestDTO {
     private String adresa;
     private Integer varsta;
     private Integer sectieId;
+    private String cnp;
+
+    public String getCnp() {
+        return cnp;
+    }
+
+    public void setCnp(String cnp) {
+        this.cnp = cnp;
+    }
 
     // Getters and Setters
     public String getNume() {

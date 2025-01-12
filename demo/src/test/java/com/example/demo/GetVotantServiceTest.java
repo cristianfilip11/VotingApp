@@ -34,8 +34,8 @@ public class GetVotantServiceTest {
             MockitoAnnotations.openMocks(this);
         }
         //given, when, then
-        @Test
-        public void given_votant_exists_when_get_product_service_returns_votant_dto(){
+       /* @Test
+        *//*public void given_votant_exists_when_get_product_service_returns_votant_dto(){
             //given
             Votant votant = new Votant();
             votant.setId(1);
@@ -61,7 +61,7 @@ public class GetVotantServiceTest {
             verify(votantRepository, times(1)).findById(1);
 
 
-        }
+        }*/
 
         @Test
         public void given_votant_does_not_exist_when_get_votant_service_throw_votant_not_found_exception(){

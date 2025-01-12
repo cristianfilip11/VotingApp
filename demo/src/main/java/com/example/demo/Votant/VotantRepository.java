@@ -13,6 +13,7 @@ public interface VotantRepository extends JpaRepository<Votant, Integer> {
 
 
     List<Votant> findByNumeContaining(String nume);
+    List<Votant> findByCnpContaining(String cnp);
 
     //@Query("SELECT v FROM votant WHERE v.adresa LIKE %:keyword")
     //List<Votant> findByAddressContaining(@Param("keyword") String adresa);

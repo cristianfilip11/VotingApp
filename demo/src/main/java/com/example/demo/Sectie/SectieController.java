@@ -65,9 +65,9 @@ public class SectieController {
     public String createSectie(@ModelAttribute Sectie sectie, RedirectAttributes redirectAttributes) {
         try {
             createSectieService.execute(sectie);
-            redirectAttributes.addFlashAttribute("successMessage", "Sectie adaugata cu succes!");
+            redirectAttributes.addFlashAttribute("successMessage1", "Sectie adaugata cu succes!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Eroare: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage1", "Eroare: " + e.getMessage());
 
         }
         return "redirect:/adminpanel";
@@ -93,9 +93,11 @@ public class SectieController {
         return "adminpanel";
     }
 
-    @GetMapping("/sectii/search/by-address")
-    public ResponseEntity<List<SectieDTO>> searchSectieByAdresa(@RequestParam String adresa){
-        return searchSectieByAdresaService.execute(adresa);
+    @GetMapping("/homepage/sectii/search/adresa")
+    public String searchSectieByAdresa(@RequestParam String adresa, Model model){
+        List<SectieDTO> sectieDTOS = searchSectieByAdresaService.execute(adresa).getBody();
+        model.addAttribute("sectiiSearch", sectieDTOS);
+        return "homepage";
     }
 
     @DeleteMapping("/sectie/{id}")
@@ -125,9 +127,9 @@ public class SectieController {
                                RedirectAttributes redirectAttributes) {
         try {
             updateSectieService.execute(new UpdateSectieCommand(id, sectie));
-            redirectAttributes.addFlashAttribute("successMessage", "Sectie updated successfully!");
+            redirectAttributes.addFlashAttribute("successMessage1", "Sectie updated successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error updating sectie: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage1", "Error updating sectie: " + e.getMessage());
         }
         return "redirect:/adminpanel";
     }
@@ -144,9 +146,9 @@ public class SectieController {
     public String deleteSectie(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         try {
             deleteSectieService.execute(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Sectie deleted successfully!");
+            redirectAttributes.addFlashAttribute("successMessage1", "Sectie deleted successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error deleting sectie: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage1", "Error deleting sectie: " + e.getMessage());
         }
         return "redirect:/adminpanel";
     }
